@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "target": "es5",
+        "rootDir": "../../",
+        "outDir": "../../build/client",
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules",
+        "src/server"
+    ]
+}
