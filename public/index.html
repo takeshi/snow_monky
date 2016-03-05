@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+
+    <link rel="stylesheet" href="./angular-material/angular-material.css">
+    <link rel="stylesheet" href="./angular-material/angular-material.layouts.css">
+
+</head>
+
+<body>
+    
+    <div ui-view></div>
+
+    <script src="./jquery/dist/jquery.js"></script>
+    <script src="./angular/angular.js"></script>
+    <script src="./angular-aria/angular-aria.js"></script>
+    <script src="./angular-messages/angular-messages.js"></script>
+    <script src="./angular-animate/angular-animate.js"></script>
+    <script src="./angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="./angular-material/angular-material.js"></script>
+    <script src="./systemjs/dist/system.js"></script>
+
+    <script>
+
+        System.defaultJSExtensions = true;
+        
+        System.config({
+            map:{
+                lodash:'./lodash/lodash.js'
+            }
+        });
+        System.import('src/client/boot');
+    </script>
+
+</body>
+
+</html>

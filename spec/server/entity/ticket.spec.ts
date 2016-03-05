@@ -1,8 +1,6 @@
 'use strict';
 
-import {Ticket, TicketModel} from '../../../src/server/entity/ticket';
-
-console.log('start');
+import {Ticket, TicketModel} from '../../../src/server/entity/ticket.entity';
 
 describe('ticket', async () => {
 
@@ -19,7 +17,9 @@ describe('ticket', async () => {
     it('findAll', async (done) => {
 
         let tickets = await TicketModel.findAll();
-        expect(tickets[0].validate()).toBe(true);
+
+        console.log(tickets[0].toString());
+
         expect(tickets.length).toBe(1);
         console.log(JSON.stringify(tickets));
         done();

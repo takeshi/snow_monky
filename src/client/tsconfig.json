@@ -4,7 +4,8 @@
         "target": "es5",
         "rootDir": "../../",
         "outDir": "../../build/client",
-        "sourceMap": true
+        "sourceMap": true,
+        "sourceRoot": "/"
     },
     "exclude": [
         "node_modules",

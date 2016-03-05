@@ -9,14 +9,8 @@ export class Ticket {
     title: string;
     desc: string;
 
-    validate(): boolean {
-        if (!this.title) {
-            return false;
-        }
-        if (!this.desc) {
-            return false;
-        }
-        return true;
+    toString() {
+        return `<${this.title}> ${this.desc}`;
     }
 
 }
