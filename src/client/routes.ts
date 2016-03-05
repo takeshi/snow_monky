@@ -8,17 +8,19 @@ export function initRoutes() {
 
         $urlRouterProvider.otherwise('/ticket');
 
-        $stateProvider
-            .state({
+        state('ticket', TicketController);
 
-                name: 'ticket',
-                url: '/ticket',
-                templateUrl: '/src/client/ticket/ticket.html',
-                controller: TicketController,
-                controllerAs: 'vm'
+        function state(name: string, controller: any) {
+            $stateProvider
+                .state({
+                    name: name,
+                    url: '/' + name,
+                    templateUrl: `/src/client/${name}/${name}.html`,
+                    controller: controller,
+                    controllerAs: 'vm'
 
-            });
-
+                });
+        }
 
     });
 }

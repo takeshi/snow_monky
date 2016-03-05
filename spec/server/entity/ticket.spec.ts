@@ -1,45 +1,76 @@
 'use strict';
 
+import {asyncBeforeEach, asyncIt} from './spec-util';
+
 import {Ticket, TicketModel} from '../../../src/server/entity/ticket.entity';
+
+import {Tracker, TrackerModel} from '../../../src/server/entity/tracker.entity';
+
+import {db} from '../../../src/server/db';
+
 
 describe('ticket', async () => {
 
-    beforeEach(async (done) => {
+    asyncBeforeEach(async () => {
+
+        await TrackerModel.sync({ force: true });
         await TicketModel.sync({ force: true });
 
-        await TicketModel.create(
-            Ticket.of({ title: 'title', desc: 'desc' }
+        let list = Tracker.list([
+            {
+                name: '障害'
+            },
+            {
+                name: 'Q&A'
+            },
+            {
+                name: 'テーマ'
+            },
+            {
+                name: 'タスクÏ'
+            }
+        ]
+        );
+        console.log('--------');
+        await TrackerModel.bulkCreate(list);
+        let trackers = await TrackerModel.findAll();
+
+        let ticket = await TicketModel.create(
+            Ticket.of(
+                { title: 'title', desc: 'desc' }
             ));
 
-        done();
+        await ticket.setTracker(trackers[0]);
+
+        console.log(JSON.stringify(trackers));
+
+        let ticket2 = await TicketModel.create(
+            Ticket.of(
+                { title: 'title2', desc: 'desc2', trackerId: trackers[0].id }
+            ));
+
+        console.log('-----------');
+        // done();
+
     });
 
-    it('findAll', async (done) => {
+    asyncIt('findAll', async () => {
+        try {
+            let tickets = await TicketModel.findAll({
+                include: [{ model: TrackerModel, as: 'tracker' }]
+            });
 
-        let tickets = await TicketModel.findAll();
+            // console.log(tickets[0]);
 
-        console.log(tickets[0].toString());
+            expect(2).toBe(tickets.length);
+            console.log(JSON.stringify(tickets));
+        } catch (e) {
+            fail(e);
+        }
+    });
 
-        expect(tickets.length).toBe(1);
-        console.log(JSON.stringify(tickets));
-        done();
-
+    asyncIt('sample', async () => {
+        // throw new Error('sample');
     });
 
 });
-
-// describe('ticket', async () => {
-
-//     await entity.TicketModel.sync({ force: true });
-
-//     let ticket = await entity.TicketModel.create(entity.Ticket.of('title', 'desc'));
-
-//     it('findAll', async () => {
-
-//         let tickets = await entity.TicketModel.findAll();
-//         console.log(tickets);
-//         expect(1).actual(tickets.length);
-
-//     });
-
-// });

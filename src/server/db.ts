@@ -1,4 +1,4 @@
-/// <reference path="../deps" />
+/// <reference path="./deps" />
 
 import * as sequelize from 'sequelize';
 
