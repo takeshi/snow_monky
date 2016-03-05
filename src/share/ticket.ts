@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export class Ticket {
 
-    static of(properties: any) {
+    static of(properties: { title: string, desc: string }) {
         return _.merge(new Ticket(), properties);
     }
 

@@ -1,16 +1,16 @@
 'use strict';
 
-import * as entity from '../../../src/server/entity/ticket';
+import {Ticket, TicketModel} from '../../../src/server/entity/ticket';
 
 console.log('start');
 
 describe('ticket', async () => {
 
     beforeEach(async (done) => {
-        await entity.TicketModel.sync({ force: true });
+        await TicketModel.sync({ force: true });
 
-        await entity.TicketModel.create(
-            entity.Ticket.of({ title: 'title', desc: 'desc' }
+        await TicketModel.create(
+            Ticket.of({ title: 'title', desc: 'desc' }
             ));
 
         done();
@@ -18,9 +18,10 @@ describe('ticket', async () => {
 
     it('findAll', async (done) => {
 
-        let tickets = await entity.TicketModel.findAll();
+        let tickets = await TicketModel.findAll();
         expect(tickets[0].validate()).toBe(true);
         expect(tickets.length).toBe(1);
+        console.log(JSON.stringify(tickets));
         done();
 
     });
