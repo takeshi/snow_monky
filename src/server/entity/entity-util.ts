@@ -15,7 +15,7 @@ export default class EntityUtil {
 
     }
 
-    static model<Instance, Attribute>(clazz: any, attributes: sequelize.DefineAttributes, options: sequelize.DefineOptions<Instance>) {
+    static model<Instance, Attribute>(clazz: any, attributes: sequelize.DefineAttributes, options?: sequelize.DefineOptions<Instance>) {
         return db.define<Instance, Attribute>(clazz.name, attributes,
             _.merge({
                 instanceMethods: EntityUtil.toMethods(clazz)

@@ -1,3 +1,5 @@
+require('zone.js');
+
 /// <reference path="deps" />
 import * as express from 'express';
 import {initRoutes} from './routes';

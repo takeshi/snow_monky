@@ -1,6 +1,6 @@
 'use strict';
 
-import {asyncBeforeEach, asyncIt} from './spec-util';
+import {$it, $beforeAll} from 'async-await-jasmine';
 
 import {Ticket, TicketModel} from '../../../src/server/entity/ticket.entity';
 
@@ -8,15 +8,14 @@ import {Tracker, TrackerModel} from '../../../src/server/entity/tracker.entity';
 
 import {db} from '../../../src/server/db';
 
+describe('ticket', () => {
 
-describe('ticket', async () => {
-
-    asyncBeforeEach(async () => {
+    $beforeAll(async () => {
 
         await TrackerModel.sync({ force: true });
         await TicketModel.sync({ force: true });
 
-        let list = Tracker.list([
+        await TrackerModel.bulkCreate(Tracker.list([
             {
                 name: '障害'
             },
@@ -30,9 +29,8 @@ describe('ticket', async () => {
                 name: 'タスクÏ'
             }
         ]
-        );
-        console.log('--------');
-        await TrackerModel.bulkCreate(list);
+        ));
+
         let trackers = await TrackerModel.findAll();
 
         let ticket = await TicketModel.create(
@@ -42,35 +40,18 @@ describe('ticket', async () => {
 
         await ticket.setTracker(trackers[0]);
 
-        console.log(JSON.stringify(trackers));
-
         let ticket2 = await TicketModel.create(
             Ticket.of(
                 { title: 'title2', desc: 'desc2', trackerId: trackers[0].id }
             ));
 
-        console.log('-----------');
-        // done();
-
     });
 
-    asyncIt('findAll', async () => {
-        try {
-            let tickets = await TicketModel.findAll({
-                include: [{ model: TrackerModel, as: 'tracker' }]
-            });
-
-            // console.log(tickets[0]);
-
-            expect(2).toBe(tickets.length);
-            console.log(JSON.stringify(tickets));
-        } catch (e) {
-            fail(e);
-        }
-    });
-
-    asyncIt('sample', async () => {
-        // throw new Error('sample');
+    $it('findAll', async () => {
+        let tickets = await TicketModel.findAll({
+            include: [{ model: TrackerModel, as: 'tracker' }]
+        });
+        expect(2).toBe(tickets.length);
     });
 
 });
